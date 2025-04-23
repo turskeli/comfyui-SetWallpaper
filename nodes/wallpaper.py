@@ -33,7 +33,7 @@ class SetWallpaper:
 
     CATEGORY = "Wallpaper"
 
-    def doIt(self, image, style, tile):
+    def doIt(self, image, style):
         out = os.path.join(os.path.abspath(os.path.dirname(__file__)), "background.png")
         if not platform.startswith("win"):
             raise Exception("Currently, wallpaper is only supported on Windows platforms")
@@ -43,7 +43,7 @@ class SetWallpaper:
         i = 255. * image[0].cpu().numpy()
         img = Image.fromarray(np.clip(i, 0, 255).astype(np.uint8))
         img.save(out)
-        self.set_wallpaper_style(self.styles[style],tile)
+        self.set_wallpaper_style(self.styles[style])
         self.set_wallpaper(out)
 
         return {}
@@ -52,7 +52,7 @@ class SetWallpaper:
         SPI_SETDESKTOPWALLPAPER = 20
         ctypes.windll.user32.SystemParametersInfoW(SPI_SETDESKTOPWALLPAPER, 0, path, 3)
 
-    def set_wallpaper_style(self, style, tile):
+    def set_wallpaper_style(self, style):
         key = winreg.OpenKey(winreg.HKEY_CURRENT_USER,
                                "Control Panel\\Desktop", 0, winreg.KEY_ALL_ACCESS)
         if style == "tile":
