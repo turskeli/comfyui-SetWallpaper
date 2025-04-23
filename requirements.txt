@@ -1,0 +1,4 @@
+ctypes
+winreg
+numpy
+pillow
